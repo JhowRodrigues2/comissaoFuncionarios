@@ -1,8 +1,15 @@
 const Employee = require("../models/Employee");
 
 const findAll = async (req, res) => {
-  const employees = await Employee.findAll();
-  res.json(employees);
+  try {
+    const employees = await Employee.findAll({
+      raw: true,
+      attributes: ["id", "name", "position", "email"],
+    });
+    res.json(employees);
+  } catch (error) {
+    res.status(500).json({ message: "Erro ao buscar usuários." });
+  }
 };
 
 const getById = async (req, res) => {
@@ -23,9 +30,56 @@ const createEmployee = async (req, res) => {
       admission,
       email,
     });
-    res.status(201).json({ message: "Usuário adicionado com sucesso!" });
+    res.status(201).json({ message: "Funcionário adicionado com sucesso!" });
   } catch (error) {
-    res.status(500).json({ message: "Erro ao adicionar usuário." });
+    res.status(500).json({ message: "Erro ao adicionar Funcionário." });
   }
 };
-module.exports = { findAll, getById, createEmployee };
+
+const removeEmployee = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const removeEmployee = await Employee.destroy({
+      where: { id: id },
+    });
+    if (removeEmployee) {
+      res.status(200).json({ message: "Funcionário removido com sucesso!" });
+    } else {
+      res.status(404).json({ message: "Funcionário não encontrado." });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Erro ao deletar Funcionário." });
+  }
+};
+
+const updateEmployee = async (req, res) => {
+  const { id, name, position, admission, email } = req.body;
+
+  const employeeData = {
+    name,
+    position,
+    admission,
+    email,
+  };
+
+  try {
+    const updatedEmployee = await Employee.update(employeeData, {
+      where: { id: id },
+    });
+    if (updatedEmployee) {
+      res.status(200).json({ message: "Dados alterados com sucesso!" });
+    } else {
+      res.status(404).json({ message: "ID não encontrado." });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Erro ao alterar dados." });
+  }
+};
+
+module.exports = {
+  findAll,
+  getById,
+  createEmployee,
+  removeEmployee,
+  updateEmployee,
+};

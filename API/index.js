@@ -9,6 +9,8 @@ app.use(express.json());
 app.use(routes);
 
 const Employee = require("./models/Employee");
+const employeeRoutes = require("./routes/employee");
+app.use("/", employeeRoutes);
 
 conn
   .sync()

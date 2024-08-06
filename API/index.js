@@ -10,8 +10,9 @@ app.use(routes);
 
 const Employee = require("./models/Employee");
 const employeeRoutes = require("./routes/employee");
-app.use("/", employeeRoutes);
+const salesRoutes = require("./routes/Sales");
 
+app.use("/", employeeRoutes, salesRoutes);
 conn
   .sync()
   .then(() => {

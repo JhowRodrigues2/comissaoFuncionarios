@@ -1,5 +1,3 @@
-#root {
-}
 body {
   margin: 0 auto;
   padding: 0;
@@ -13,22 +11,29 @@ body {
   min-height: 100vh;
   width: 100%;
 }
-
-.content {
-  flex-grow: 1;
+.header-container {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
-.footer {
-  min-width: 100%;
-  height: 2em;
-  flex-shrink: 0;
-  color: #fff;
-  background-color: #1976d2;
+.tab-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  border-bottom: 1px solid #ddd;
 }
-.footer a {
-  color: antiquewhite;
+
+.tab-list {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.tab-panel-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }

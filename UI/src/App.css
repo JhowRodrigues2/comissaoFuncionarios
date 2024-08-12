@@ -37,3 +37,20 @@ body {
   display: flex;
   justify-content: center;
 }
+.employee {
+  border: 1px solid #ddd;
+  width: 400px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+.date {
+  display: "flex";
+  align-items: "center";
+  gap: "0.5em";
+}

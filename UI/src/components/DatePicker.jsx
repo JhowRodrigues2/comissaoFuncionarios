@@ -2,12 +2,20 @@ import * as React from "react";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-
-const Date = () => {
+import TextField from "@mui/material/TextField";
+import dayjs from "dayjs";
+const DateComponent = ({ value, onChange }) => {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DatePicker />
+      <DatePicker
+        value={value ? dayjs(value) : null}
+        onChange={(newValue) =>
+          onChange(newValue ? newValue.format("YYYY-MM-DD") : "")
+        } // Formatando a data como string
+        renderInput={(params) => <TextField {...params} />}
+      />
     </LocalizationProvider>
   );
 };
-export default Date;
+
+export default DateComponent;

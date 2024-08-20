@@ -7,6 +7,7 @@ const Sales = db.define("Sales", {
   date: { type: DataTypes.DATE, allowNull: false },
   value: { type: DataTypes.FLOAT, allowNull: false },
   product: { type: DataTypes.STRING(100), allowNull: false },
+  paymentMethod: { type: DataTypes.INTEGER, allowNull: false },
 });
 Sales.belongsTo(Employee, {
   foreignKey: {

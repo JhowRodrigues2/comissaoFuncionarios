@@ -3,7 +3,8 @@ const Employee = require("../models/Employee");
 
 const createSale = async (req, res) => {
   try {
-    const { client, date, value, product, employeeId } = req.body;
+    const { client, date, value, product, paymentMethod, employeeId } =
+      req.body;
     console.log("Request body:", req.body); // Log da requisição recebida
 
     const employee = await Employee.findByPk(employeeId);
@@ -18,6 +19,7 @@ const createSale = async (req, res) => {
       date,
       value,
       product,
+      paymentMethod,
       employeeId: employee.id,
     });
     console.log("Sale created:", sale); // Log da venda criada

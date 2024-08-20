@@ -32,7 +32,7 @@ const Employee = () => {
   };
 
   return (
-    <Box className="employee">
+    <Box className="boxArea">
       <Typography variant="h6">Adicione um Funcionário</Typography>
       <form className="form" onSubmit={handleSubmit}>
         <Textfield
@@ -58,7 +58,9 @@ const Employee = () => {
           label="E-mail"
           type="email"
         />
-        <Button type="submit">Cadastrar</Button>
+        <Button type="submit" variant="outlined">
+          Cadastrar
+        </Button>
       </form>
     </Box>
   );

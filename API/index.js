@@ -16,6 +16,6 @@ app.use("/", employeeRoutes, salesRoutes);
 conn
   .sync()
   .then(() => {
-    app.listen(3001);
+    app.listen(3000);
   })
   .catch((err) => console.log(err));

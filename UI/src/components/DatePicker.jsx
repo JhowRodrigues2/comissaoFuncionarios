@@ -11,7 +11,7 @@ const DateComponent = ({ value, onChange }) => {
         value={value ? dayjs(value) : null}
         onChange={(newValue) =>
           onChange(newValue ? newValue.format("YYYY-MM-DD") : "")
-        } // Formatando a data como string
+        }
         renderInput={(params) => <TextField {...params} />}
       />
     </LocalizationProvider>

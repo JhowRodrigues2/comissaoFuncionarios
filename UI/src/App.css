@@ -38,13 +38,14 @@ body {
   display: flex;
   justify-content: center;
 }
-.employee {
+.boxArea {
   border: 1px solid #ddd;
   width: 400px;
   padding: 10px;
   display: flex;
   flex-direction: column;
   margin-top: 1em;
+  align-items: center;
 }
 .form {
   display: flex;

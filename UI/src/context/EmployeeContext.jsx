@@ -4,6 +4,7 @@ const EmployeeContext = createContext();
 
 const EmployeeProvider = ({ children }) => {
   const [employee, setEmployee] = useState([]);
+  const [employeeSelected, setEmployeeSelected] = useState([]);
 
   const addEmployee = async (data) => {
     try {
@@ -53,10 +54,26 @@ const EmployeeProvider = ({ children }) => {
       throw error;
     }
   };
+  const getEmployeeById = async (id) => {
+    try {
+      const response = await fetch(`http://localhost:3000/employee/${id}`);
+      const result = await response.json();
+      setEmployeeSelected(result);
+    } catch (error) {
+      console.error("Erro ao buscar funcionários:", error);
+    }
+  };
 
   return (
     <EmployeeContext.Provider
-      value={{ addEmployee, findAllEmployee, employee, addSale }}
+      value={{
+        addEmployee,
+        findAllEmployee,
+        employee,
+        addSale,
+        getEmployeeById,
+        employeeSelected,
+      }}
     >
       {children}
     </EmployeeContext.Provider>

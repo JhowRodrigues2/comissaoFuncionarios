@@ -7,7 +7,6 @@ import { SelectList } from "../components/SelectList";
 import { PaymentMethod as Payment } from "../components/PaymentMethod";
 import { EmployeeContext } from "../context/EmployeeContext";
 import { showSuccessAlert } from "../components/SucessAlert";
-import Swal from "sweetalert2";
 import { ErrorAlert } from "../components/ErrorAlert";
 
 export const Sales = () => {

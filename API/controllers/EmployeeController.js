@@ -16,11 +16,17 @@ const getById = async (req, res) => {
   const id = req.params.id;
   try {
     const employee = await Employee.findOne({ where: { id: id } });
+    if (employee) {
+      res.status(200).json(employee);
+    } else {
+      res.status(404).json({ message: "Funcionário não encontrado." });
+    }
   } catch (error) {
-    res.status(500).json({ message: "Erro ao buscar usuários." });
+    res
+      .status(500)
+      .json({ message: "Erro ao buscar usuário.", error: error.message });
   }
 };
-
 const createEmployee = async (req, res) => {
   const { name, position, admission, email } = req.body;
   try {

@@ -7,10 +7,10 @@ import { showSuccessAlert } from "../components/SucessAlert";
 
 const Employee = () => {
   const { addEmployee } = useContext(EmployeeContext);
-  const [name, setName] = useState();
-  const [position, setPosition] = useState();
-  const [dateAdmission, setDateAdmission] = useState();
-  const [email, setEmail] = useState();
+  const [name, setName] = useState("");
+  const [position, setPosition] = useState("");
+  const [dateAdmission, setDateAdmission] = useState("");
+  const [email, setEmail] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();

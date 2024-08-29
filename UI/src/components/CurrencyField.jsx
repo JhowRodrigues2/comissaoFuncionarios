@@ -1,7 +1,11 @@
 import React from "react";
 import CurrencyTextField from "@unicef/material-ui-currency-textfield";
 
-export const CurrencyField = () => {
+export const CurrencyField = ({ value, onChange }) => {
+  const handleChange = (event, newValue) => {
+    onChange(newValue);
+  };
+
   return (
     <CurrencyTextField
       variant="outlined"
@@ -9,7 +13,10 @@ export const CurrencyField = () => {
       currencySymbol="R$"
       decimalCharacter=","
       digitGroupSeparator="."
-      outputFormat="string"
+      outputFormat="number"
+      required
+      value={value}
+      onChange={handleChange}
     />
   );
 };

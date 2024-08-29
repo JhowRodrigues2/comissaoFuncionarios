@@ -4,6 +4,7 @@ const EmployeeContext = createContext();
 
 const EmployeeProvider = ({ children }) => {
   const [employee, setEmployee] = useState([]);
+
   const addEmployee = async (data) => {
     try {
       const response = await fetch("http://localhost:3000/employee/create", {
@@ -30,9 +31,32 @@ const EmployeeProvider = ({ children }) => {
     }
   };
 
+  const addSale = async (data) => {
+    try {
+      const response = await fetch("http://localhost:3000/sales", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+
+      if (result.error) {
+        throw new Error(result.error);
+      }
+
+      return result;
+    } catch (error) {
+      console.error("Erro ao adicionar venda:", error);
+      throw error;
+    }
+  };
+
   return (
     <EmployeeContext.Provider
-      value={{ addEmployee, findAllEmployee, employee }}
+      value={{ addEmployee, findAllEmployee, employee, addSale }}
     >
       {children}
     </EmployeeContext.Provider>

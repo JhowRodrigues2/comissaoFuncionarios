@@ -17,19 +17,27 @@ import dayjs from "dayjs";
 import DateComponent from "../components/DatePicker";
 import { SelectList } from "../components/SelectList";
 import { EmployeeContext } from "../context/EmployeeContext";
-export const Commission = () => {
-  const [sales, setSales] = useState([]);
-  const [employees, setEmployees] = useState([]);
-  const [selectedDate, setSelectedDate] = useState(dayjs());
-  const [employeeId, setEmployeeId] = useState(null);
 
-  const { getEmployeeById, employeeSelected } = useContext(EmployeeContext);
+export const Commission = () => {
+  const [selectedDate, setSelectedDate] = useState(dayjs());
+  const [employeeId, setEmployeeId] = useState("");
+
+  const {
+    getEmployeeById,
+    employeeSelected,
+    getSaleById,
+    saleEmployeeSelected,
+    formatCurrency,
+    paymentMethods,
+  } = useContext(EmployeeContext);
 
   useEffect(() => {}, [selectedDate]);
 
   const filterEmployee = () => {
     getEmployeeById(employeeId);
+    getSaleById(employeeId);
   };
+
   return (
     <Container className="boxArea">
       <Typography variant="h4">
@@ -84,19 +92,19 @@ export const Commission = () => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>ID</TableCell>
               <TableCell>Data</TableCell>
+              <TableCell>Forma de Pagamento</TableCell>
               <TableCell>Valor</TableCell>
               <TableCell>Comissão</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {sales.map((sale) => (
+            {saleEmployeeSelected.map((sale) => (
               <TableRow key={sale.id}>
-                <TableCell>{sale.id}</TableCell>
                 <TableCell>{dayjs(sale.date).format("DD/MM/YYYY")}</TableCell>
-                <TableCell>{sale.amount}</TableCell>
-                <TableCell>{sale.commission}</TableCell>
+                <TableCell>{paymentMethods[sale.paymentMethod]}</TableCell>
+                <TableCell>{formatCurrency(sale.value)}</TableCell>
+                <TableCell>{formatCurrency(sale.commission)}</TableCell>
               </TableRow>
             ))}
           </TableBody>

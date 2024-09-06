@@ -17,9 +17,30 @@ export const Sales = () => {
   const [product, setProduct] = useState("");
   const [employeeId, setEmployeeId] = useState("");
   const [paymentMethod, setPayment] = useState("");
+  const [commission, setCommission] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Calculando a comissão antes de enviar os dados
+    let valueComission;
+
+    switch (paymentMethod) {
+      case 1:
+        valueComission = value * 0.05;
+        break;
+      case 2:
+        valueComission = value * 0.04;
+        break;
+      case 3:
+        valueComission = value * 0.04;
+        break;
+      case 4:
+        valueComission = value * 0.02;
+        break;
+      default:
+        valueComission = 0;
+    }
 
     const saleData = {
       client,
@@ -28,6 +49,7 @@ export const Sales = () => {
       product,
       employeeId,
       paymentMethod,
+      commission: valueComission,
     };
 
     try {
@@ -39,10 +61,17 @@ export const Sales = () => {
       setProduct("");
       setEmployeeId("");
       setPayment("");
+      setCommission("");
     } catch (error) {
       ErrorAlert("Erro ao adicionar venda, tente novamente");
     }
+
+    console.log("Value:", value);
+    console.log("Payment Method:", paymentMethod);
+    console.log("Calculated Commission:", valueComission);
+    console.log(saleData);
   };
+
   return (
     <Box className="boxArea">
       <Typography variant="h6">Cadastrar Vendas</Typography>

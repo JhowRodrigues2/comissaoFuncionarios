@@ -5,7 +5,14 @@ const EmployeeContext = createContext();
 const EmployeeProvider = ({ children }) => {
   const [employee, setEmployee] = useState([]);
   const [employeeSelected, setEmployeeSelected] = useState([]);
+  const [saleEmployeeSelected, setSaleEmployeeSelected] = useState([]);
 
+  const paymentMethods = {
+    1: "Dinheiro",
+    2: "Pix",
+    3: "Cartão de Débito",
+    4: "Cartão de Crédito",
+  };
   const addEmployee = async (data) => {
     try {
       const response = await fetch("http://localhost:3000/employee/create", {
@@ -63,6 +70,21 @@ const EmployeeProvider = ({ children }) => {
       console.error("Erro ao buscar funcionários:", error);
     }
   };
+  const getSaleById = async (id) => {
+    try {
+      const response = await fetch(`http://localhost:3000/sales/${id}`);
+      const result = await response.json();
+      setSaleEmployeeSelected(result);
+    } catch (error) {
+      console.error("Erro ao buscar funcionários:", error);
+    }
+  };
+  const formatCurrency = (value) => {
+    return new Intl.NumberFormat("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+    }).format(value);
+  };
 
   return (
     <EmployeeContext.Provider
@@ -73,6 +95,10 @@ const EmployeeProvider = ({ children }) => {
         addSale,
         getEmployeeById,
         employeeSelected,
+        getSaleById,
+        saleEmployeeSelected,
+        formatCurrency,
+        paymentMethods,
       }}
     >
       {children}

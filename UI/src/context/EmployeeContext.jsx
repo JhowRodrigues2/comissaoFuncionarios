@@ -70,9 +70,11 @@ const EmployeeProvider = ({ children }) => {
       console.error("Erro ao buscar funcionários:", error);
     }
   };
-  const getSaleById = async (id) => {
+  const getSaleById = async (id, month, year) => {
     try {
-      const response = await fetch(`http://localhost:3000/sales/${id}`);
+      const response = await fetch(
+        `http://localhost:3000/sales/${id}?month=${month}&year=${year}`
+      );
       const result = await response.json();
       setSaleEmployeeSelected(result);
     } catch (error) {

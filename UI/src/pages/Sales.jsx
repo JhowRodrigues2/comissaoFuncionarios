@@ -22,7 +22,6 @@ export const Sales = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Calculando a comissão antes de enviar os dados
     let valueComission;
 
     switch (paymentMethod) {

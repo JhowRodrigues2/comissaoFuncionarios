@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useContext, useRef } from "react";
+import React, { useState, useContext, useRef } from "react";
 import {
   Container,
   Grid,
   Typography,
-  TextField,
   Table,
   TableHead,
   TableRow,
@@ -12,16 +11,18 @@ import {
   Box,
   Button,
 } from "@mui/material";
-
 import dayjs from "dayjs";
-import DateComponent from "../components/DatePicker";
 import { SelectList } from "../components/SelectList";
 import { EmployeeContext } from "../context/EmployeeContext";
 import { useReactToPrint } from "react-to-print";
+import DataPicketMonth from "../components/DataPicketMonth";
 
 export const Commission = () => {
-  const [selectedDate, setSelectedDate] = useState(dayjs());
   const [employeeId, setEmployeeId] = useState("");
+  const [dateFilter, setDateFilter] = useState({
+    month: dayjs().month() + 1,
+    year: dayjs().year(),
+  });
 
   const {
     getEmployeeById,
@@ -32,11 +33,9 @@ export const Commission = () => {
     paymentMethods,
   } = useContext(EmployeeContext);
 
-  useEffect(() => {}, [selectedDate]);
-
   const filterEmployee = () => {
     getEmployeeById(employeeId);
-    getSaleById(employeeId);
+    getSaleById(employeeId, dateFilter.month, dateFilter.year);
   };
 
   const contentDocument = useRef();
@@ -44,6 +43,7 @@ export const Commission = () => {
   const handlePrint = useReactToPrint({
     content: () => contentDocument.current,
   });
+
   return (
     <Container className="boxArea">
       <Typography variant="h4">
@@ -51,11 +51,11 @@ export const Commission = () => {
       </Typography>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6} md={4}>
-          <DateComponent
-            label="Filtrar por Data"
-            value={selectedDate}
-            onChange={(newDate) => setSelectedDate(newDate)}
-            renderInput={(params) => <TextField {...params} fullWidth />}
+          <DataPicketMonth
+            value={dayjs()
+              .month(dateFilter.month - 1)
+              .year(dateFilter.year)}
+            onChange={(date) => setDateFilter(date)}
           />
         </Grid>
         <Grid item xs={12} sm={6} md={4}>
@@ -66,7 +66,7 @@ export const Commission = () => {
             variant="outlined"
             fullWidth
             onClick={filterEmployee}
-            disabled={employeeId == ""}
+            disabled={employeeId === ""}
           >
             Aplicar Filtros
           </Button>
@@ -122,7 +122,10 @@ export const Commission = () => {
           </Table>
         </Box>
       </Box>
-      <Button onClick={handlePrint} disabled={saleEmployeeSelected == ""}>
+      <Button
+        onClick={handlePrint}
+        disabled={saleEmployeeSelected.length === 0}
+      >
         Imprimir
       </Button>
     </Container>

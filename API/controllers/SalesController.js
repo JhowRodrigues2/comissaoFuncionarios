@@ -1,5 +1,6 @@
 const Sales = require("../models/Sales");
 const Employee = require("../models/Employee");
+const { Op } = require("sequelize");
 
 const createSale = async (req, res) => {
   try {
@@ -15,8 +16,6 @@ const createSale = async (req, res) => {
     console.log("Request body:", req.body);
 
     const employee = await Employee.findByPk(employeeId);
-    console.log("Employee found:", employee);
-
     if (!employee) {
       return res.status(404).json({ error: "Employee not found" });
     }
@@ -28,7 +27,7 @@ const createSale = async (req, res) => {
       product,
       paymentMethod,
       commission,
-      employeeId: employee.id,
+      employeeId,
     });
     console.log("Sale created:", sale);
 
@@ -48,17 +47,32 @@ const getSales = async (req, res) => {
     res.status(500).json({ error: "Failed to fetch sales" });
   }
 };
+
 const getSalesByEmployee = async (req, res) => {
   const id = req.params.id;
+  const { month, year } = req.query;
+
   try {
-    const employee = await Employee.findOne({ where: { id } });
-    if (employee) {
-      const sales = await Sales.findAll({ where: { employeeId: id } });
-      res.status(200).json(sales);
-    } else {
-      res.status(404).json({ message: "Employee not found." });
+    const employee = await Employee.findByPk(id);
+    if (!employee) {
+      return res.status(404).json({ message: "Employee not found." });
     }
+
+    const startDate = new Date(year, month - 1, 1);
+    const endDate = new Date(year, month, 0, 23, 59, 59);
+
+    const sales = await Sales.findAll({
+      where: {
+        employeeId: id,
+        date: {
+          [Op.between]: [startDate, endDate],
+        },
+      },
+    });
+
+    res.status(200).json(sales);
   } catch (error) {
+    console.error("Error fetching sales:", error);
     res
       .status(500)
       .json({ message: "Error fetching sales.", error: error.message });
